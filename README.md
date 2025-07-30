@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 # SquidJob Tender Management System
 
 A comprehensive tender management module for SquidJob with advanced filtering, document management, bid participation workflow, and real-time notifications.
@@ -419,3 +420,7 @@ This project is licensed under the MIT License - see the LICENSE file for detail
 ---
 
 **Built with ❤️ for the SquidJob community**
+=======
+# squidjob
+TMS
+>>>>>>> b743d2c2ea01e10aeeb3bb4626709048043d55f1
