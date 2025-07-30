@@ -1,0 +1,489 @@
+/**
+ * SquidJob Widget Components CSS
+ * Specific styling for dashboard widgets and components
+ * Built on top of squidjob-core.css and squidjob-dashboard.css
+ */
+
+/* ===== TENDER LIST WIDGET ===== */
+.squidjob-tender-list {
+  display: flex;
+  flex-direction: column;
+  gap: var(--squidjob-space-md);
+}
+
+.squidjob-tender-item {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: var(--squidjob-space-md);
+  border: 1px solid var(--squidjob-light-gray);
+  border-radius: var(--squidjob-radius-lg);
+  transition: all var(--squidjob-transition-fast);
+  background: var(--squidjob-white);
+}
+
+.squidjob-tender-item:hover {
+  border-color: var(--squidjob-primary);
+  box-shadow: var(--squidjob-shadow-sm);
+  transform: translateY(-1px);
+}
+
+.squidjob-tender-info {
+  flex: 1;
+  min-width: 0;
+}
+
+.squidjob-tender-title {
+  margin: 0 0 var(--squidjob-space-xs) 0;
+  font-size: var(--squidjob-text-base);
+  font-weight: var(--squidjob-font-semibold);
+}
+
+.squidjob-tender-title a {
+  color: var(--squidjob-black);
+  text-decoration: none;
+  transition: color var(--squidjob-transition-fast);
+}
+
+.squidjob-tender-title a:hover {
+  color: var(--squidjob-primary);
+}
+
+.squidjob-tender-organization {
+  margin: 0 0 var(--squidjob-space-sm) 0;
+  font-size: var(--squidjob-text-sm);
+  color: var(--squidjob-gray);
+}
+
+.squidjob-tender-meta {
+  display: flex;
+  gap: var(--squidjob-space-md);
+  font-size: var(--squidjob-text-sm);
+}
+
+.squidjob-tender-value {
+  font-weight: var(--squidjob-font-semibold);
+  color: var(--squidjob-success);
+}
+
+.squidjob-tender-deadline {
+  color: var(--squidjob-gray);
+}
+
+.squidjob-tender-status {
+  flex-shrink: 0;
+  margin-left: var(--squidjob-space-md);
+}
+
+@media (max-width: 768px) {
+  .squidjob-tender-item {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: var(--squidjob-space-sm);
+  }
+  
+  .squidjob-tender-status {
+    margin-left: 0;
+    align-self: flex-end;
+  }
+  
+  .squidjob-tender-meta {
+    flex-direction: column;
+    gap: var(--squidjob-space-xs);
+  }
+}
+
+/* ===== ACTIVITY TIMELINE WIDGET ===== */
+.squidjob-activity-timeline {
+  display: flex;
+  flex-direction: column;
+  gap: var(--squidjob-space-lg);
+}
+
+.squidjob-activity-item {
+  display: flex;
+  gap: var(--squidjob-space-md);
+  position: relative;
+}
+
+.squidjob-activity-item:not(:last-child)::after {
+  content: '';
+  position: absolute;
+  left: 20px;
+  top: 48px;
+  bottom: -24px;
+  width: 2px;
+  background: var(--squidjob-light-gray);
+}
+
+.squidjob-activity-avatar {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  background: var(--squidjob-purple-gradient);
+  color: var(--squidjob-white);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: var(--squidjob-font-bold);
+  font-size: var(--squidjob-text-sm);
+  flex-shrink: 0;
+  position: relative;
+  z-index: 1;
+}
+
+.squidjob-activity-content {
+  flex: 1;
+  min-width: 0;
+}
+
+.squidjob-activity-text {
+  font-size: var(--squidjob-text-sm);
+  color: var(--squidjob-dark-gray);
+  margin-bottom: var(--squidjob-space-xs);
+  line-height: 1.5;
+}
+
+.squidjob-activity-text strong {
+  color: var(--squidjob-black);
+}
+
+.squidjob-activity-time {
+  font-size: var(--squidjob-text-xs);
+  color: var(--squidjob-gray);
+}
+
+/* ===== DEADLINE LIST WIDGET ===== */
+.squidjob-deadline-list {
+  display: flex;
+  flex-direction: column;
+  gap: var(--squidjob-space-md);
+}
+
+.squidjob-deadline-item {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: var(--squidjob-space-md);
+  border: 1px solid var(--squidjob-light-gray);
+  border-radius: var(--squidjob-radius-lg);
+  transition: all var(--squidjob-transition-fast);
+  background: var(--squidjob-white);
+}
+
+.squidjob-deadline-item:hover {
+  border-color: var(--squidjob-warning);
+  box-shadow: var(--squidjob-shadow-sm);
+}
+
+.squidjob-deadline-info {
+  flex: 1;
+  min-width: 0;
+}
+
+.squidjob-deadline-info h4 {
+  margin: 0 0 var(--squidjob-space-xs) 0;
+  font-size: var(--squidjob-text-sm);
+  font-weight: var(--squidjob-font-semibold);
+  color: var(--squidjob-black);
+}
+
+.squidjob-deadline-info p {
+  margin: 0;
+  font-size: var(--squidjob-text-xs);
+  color: var(--squidjob-gray);
+}
+
+.squidjob-deadline-countdown {
+  flex-shrink: 0;
+  margin-left: var(--squidjob-space-md);
+}
+
+/* ===== QUICK ACTIONS WIDGET ===== */
+.squidjob-quick-actions {
+  display: flex;
+  flex-direction: column;
+  gap: var(--squidjob-space-md);
+}
+
+.squidjob-quick-actions .squidjob-btn {
+  justify-content: flex-start;
+  text-align: left;
+}
+
+.squidjob-quick-actions .squidjob-btn i {
+  margin-right: var(--squidjob-space-sm);
+  width: 16px;
+  text-align: center;
+}
+
+/* ===== PERFORMANCE METRICS WIDGET ===== */
+.squidjob-performance-metrics {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: var(--squidjob-space-lg);
+}
+
+.squidjob-metric {
+  text-align: center;
+  padding: var(--squidjob-space-md);
+  border: 1px solid var(--squidjob-light-gray);
+  border-radius: var(--squidjob-radius-lg);
+  transition: all var(--squidjob-transition-fast);
+}
+
+.squidjob-metric:hover {
+  border-color: var(--squidjob-primary);
+  transform: translateY(-2px);
+}
+
+.squidjob-metric-label {
+  font-size: var(--squidjob-text-xs);
+  color: var(--squidjob-gray);
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  margin-bottom: var(--squidjob-space-xs);
+}
+
+.squidjob-metric-value {
+  font-size: var(--squidjob-text-xl);
+  font-weight: var(--squidjob-font-bold);
+  color: var(--squidjob-primary);
+}
+
+@media (min-width: 768px) {
+  .squidjob-performance-metrics {
+    grid-template-columns: repeat(3, 1fr);
+  }
+}
+
+/* ===== EMPTY STATES ===== */
+.squidjob-empty-state {
+  text-align: center;
+  padding: var(--squidjob-space-3xl) var(--squidjob-space-lg);
+  color: var(--squidjob-gray);
+}
+
+.squidjob-empty-state i {
+  font-size: var(--squidjob-text-4xl);
+  margin-bottom: var(--squidjob-space-lg);
+  opacity: 0.5;
+}
+
+.squidjob-empty-state p {
+  margin: 0;
+  font-size: var(--squidjob-text-lg);
+}
+
+/* ===== NOTIFICATIONS SYSTEM ===== */
+.squidjob-notifications-container {
+  position: fixed;
+  top: var(--squidjob-space-lg);
+  right: var(--squidjob-space-lg);
+  z-index: var(--squidjob-z-tooltip);
+  max-width: 400px;
+  width: 100%;
+}
+
+.squidjob-notification {
+  background: var(--squidjob-white);
+  border-radius: var(--squidjob-radius-lg);
+  box-shadow: var(--squidjob-shadow-xl);
+  margin-bottom: var(--squidjob-space-md);
+  overflow: hidden;
+  transform: translateX(100%);
+  transition: all var(--squidjob-transition-normal);
+  opacity: 0;
+  border-left: 4px solid var(--squidjob-info);
+}
+
+.squidjob-notification.show {
+  transform: translateX(0);
+  opacity: 1;
+}
+
+.squidjob-notification.hide {
+  transform: translateX(100%);
+  opacity: 0;
+}
+
+.squidjob-notification-success {
+  border-left-color: var(--squidjob-success);
+}
+
+.squidjob-notification-warning {
+  border-left-color: var(--squidjob-warning);
+}
+
+.squidjob-notification-error {
+  border-left-color: var(--squidjob-error);
+}
+
+.squidjob-notification-content {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: var(--squidjob-space-lg);
+}
+
+.squidjob-notification-message {
+  flex: 1;
+  font-size: var(--squidjob-text-sm);
+  color: var(--squidjob-dark-gray);
+  line-height: 1.5;
+}
+
+.squidjob-notification-close {
+  background: none;
+  border: none;
+  color: var(--squidjob-gray);
+  cursor: pointer;
+  font-size: var(--squidjob-text-lg);
+  padding: var(--squidjob-space-xs);
+  border-radius: var(--squidjob-radius-sm);
+  transition: all var(--squidjob-transition-fast);
+  margin-left: var(--squidjob-space-md);
+}
+
+.squidjob-notification-close:hover {
+  background: var(--squidjob-light-gray);
+  color: var(--squidjob-dark-gray);
+}
+
+@media (max-width: 768px) {
+  .squidjob-notifications-container {
+    top: var(--squidjob-space-md);
+    right: var(--squidjob-space-md);
+    left: var(--squidjob-space-md);
+    max-width: none;
+  }
+}
+
+/* ===== LOADING STATES ===== */
+.squidjob-widget.loading {
+  position: relative;
+  pointer-events: none;
+}
+
+.squidjob-widget.loading::after {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(255, 255, 255, 0.8);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: var(--squidjob-radius-xl);
+  z-index: 10;
+}
+
+.squidjob-widget.loading .squidjob-widget-body {
+  opacity: 0.5;
+}
+
+.squidjob-widget-action.loading {
+  pointer-events: none;
+  opacity: 0.6;
+}
+
+.squidjob-widget-action.loading i {
+  animation: squidjob-spin 1s linear infinite;
+}
+
+/* ===== RESPONSIVE ENHANCEMENTS ===== */
+@media (max-width: 480px) {
+  .squidjob-tender-item,
+  .squidjob-deadline-item {
+    padding: var(--squidjob-space-sm);
+  }
+  
+  .squidjob-activity-timeline {
+    gap: var(--squidjob-space-md);
+  }
+  
+  .squidjob-activity-item:not(:last-child)::after {
+    bottom: -16px;
+  }
+  
+  .squidjob-activity-avatar {
+    width: 32px;
+    height: 32px;
+    font-size: var(--squidjob-text-xs);
+  }
+  
+  .squidjob-performance-metrics {
+    gap: var(--squidjob-space-md);
+  }
+  
+  .squidjob-metric {
+    padding: var(--squidjob-space-sm);
+  }
+  
+  .squidjob-metric-value {
+    font-size: var(--squidjob-text-lg);
+  }
+}
+
+/* ===== ACCESSIBILITY ENHANCEMENTS ===== */
+.squidjob-tender-item:focus-within,
+.squidjob-deadline-item:focus-within,
+.squidjob-metric:focus-within {
+  outline: 2px solid var(--squidjob-primary);
+  outline-offset: 2px;
+}
+
+.squidjob-notification-close:focus-visible {
+  outline: 2px solid var(--squidjob-primary);
+  outline-offset: 2px;
+}
+
+/* Reduced motion support */
+@media (prefers-reduced-motion: reduce) {
+  .squidjob-tender-item,
+  .squidjob-deadline-item,
+  .squidjob-metric,
+  .squidjob-notification {
+    transition: none;
+  }
+  
+  .squidjob-widget-action.loading i {
+    animation: none;
+  }
+}
+
+/* High contrast mode support */
+@media (prefers-contrast: high) {
+  .squidjob-tender-item,
+  .squidjob-deadline-item,
+  .squidjob-metric,
+  .squidjob-notification {
+    border-width: 2px;
+  }
+  
+  .squidjob-activity-item:not(:last-child)::after {
+    background: var(--squidjob-black);
+    width: 3px;
+  }
+}
+
+/* Print styles */
+@media print {
+  .squidjob-notifications-container,
+  .squidjob-widget-actions {
+    display: none !important;
+  }
+  
+  .squidjob-widget {
+    break-inside: avoid;
+    margin-bottom: var(--squidjob-space-lg);
+  }
+  
+  .squidjob-tender-item,
+  .squidjob-deadline-item,
+  .squidjob-activity-item {
+    break-inside: avoid;
+  }
+}

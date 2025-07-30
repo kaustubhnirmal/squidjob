@@ -1,0 +1,61 @@
+{
+    "name": "Advanced Notification System",
+    "slug": "notification-system",
+    "version": "1.0.0",
+    "description": "Enhanced notification system with email, SMS, and in-app notifications for tender activities",
+    "author": "SquidJob Team",
+    "author_uri": "https://squidjob.com",
+    "plugin_uri": "https://squidjob.com/plugins/notification-system",
+    "main": "main.php",
+    "compatibility": {
+        "min_version": "1.0.0",
+        "max_version": "2.0.0",
+        "php_version": "8.1"
+    },
+    "dependencies": [],
+    "hooks": [
+        "tender_created",
+        "tender_updated",
+        "tender_published",
+        "bid_submitted",
+        "bid_awarded",
+        "user_login",
+        "dashboard_widgets"
+    ],
+    "permissions": [
+        "manage_notifications",
+        "send_notifications"
+    ],
+    "settings": {
+        "email_enabled": {
+            "type": "boolean",
+            "default": true,
+            "description": "Enable email notifications"
+        },
+        "sms_enabled": {
+            "type": "boolean",
+            "default": false,
+            "description": "Enable SMS notifications"
+        },
+        "sms_api_key": {
+            "type": "string",
+            "default": "",
+            "description": "SMS service API key"
+        },
+        "notification_delay": {
+            "type": "integer",
+            "default": 0,
+            "description": "Delay in minutes before sending notifications"
+        },
+        "batch_size": {
+            "type": "integer",
+            "default": 50,
+            "description": "Number of notifications to process in each batch"
+        }
+    },
+    "database_tables": [
+        "notification_queue",
+        "notification_templates",
+        "notification_preferences"
+    ]
+}

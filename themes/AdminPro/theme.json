@@ -1,0 +1,256 @@
+{
+  "name": "AdminPro",
+  "display_name": "AdminPro - Professional Admin Theme",
+  "description": "Modern, responsive admin theme with advanced features for professional tender management",
+  "version": "1.0.0",
+  "author": "SquidJob Team",
+  "author_url": "https://squidjob.com",
+  "screenshot": "screenshot.png",
+  "tags": ["admin", "professional", "responsive", "modern", "dashboard"],
+  
+  "compatibility": {
+    "min_version": "1.0.0",
+    "max_version": "*",
+    "php_version": ">=8.1"
+  },
+  
+  "assets": {
+    "css": [
+      "assets/css/bootstrap.min.css",
+      "assets/css/fontawesome.min.css",
+      "assets/css/adminpro.css",
+      "assets/css/components.css",
+      "assets/css/dashboard.css",
+      "assets/css/responsive.css",
+      "assets/css/dark-mode.css"
+    ],
+    "js": [
+      "assets/js/bootstrap.bundle.min.js",
+      "assets/js/jquery.min.js",
+      "assets/js/chart.min.js",
+      "assets/js/datatables.min.js",
+      "assets/js/adminpro.js",
+      "assets/js/dashboard.js",
+      "assets/js/components.js"
+    ],
+    "fonts": [
+      "assets/fonts/inter/inter.woff2",
+      "assets/fonts/fontawesome/fa-solid-900.woff2",
+      "assets/fonts/fontawesome/fa-regular-400.woff2",
+      "assets/fonts/fontawesome/fa-brands-400.woff2"
+    ],
+    "images": {
+      "logo": "assets/images/logo-adminpro.svg",
+      "logo_dark": "assets/images/logo-adminpro-dark.svg",
+      "favicon": "assets/images/favicon.ico",
+      "avatar_placeholder": "assets/images/avatar-placeholder.png",
+      "login_bg": "assets/images/login-background.jpg",
+      "dashboard_bg": "assets/images/dashboard-pattern.svg"
+    }
+  },
+  
+  "layout": {
+    "master": "layouts/master.php",
+    "auth": "layouts/auth.php",
+    "dashboard": "layouts/dashboard.php",
+    "admin": "layouts/admin.php",
+    "error": "layouts/error.php",
+    "print": "layouts/print.php"
+  },
+  
+  "components": {
+    "header": "components/header.php",
+    "footer": "components/footer.php",
+    "sidebar": "components/sidebar.php",
+    "navbar": "components/navbar.php",
+    "breadcrumb": "components/breadcrumb.php",
+    "user_menu": "components/user-menu.php",
+    "notifications": "components/notifications.php",
+    "search": "components/search.php",
+    "theme_switcher": "components/theme-switcher.php"
+  },
+  
+  "pages": {
+    "home": "pages/home.php",
+    "login": "pages/auth/login.php",
+    "register": "pages/auth/register.php",
+    "forgot_password": "pages/auth/forgot-password.php",
+    "dashboard": "pages/dashboard/index.php",
+    "admin_dashboard": "pages/dashboard/admin.php",
+    "tenders": "pages/tenders/index.php",
+    "tender_create": "pages/tenders/create.php",
+    "tender_edit": "pages/tenders/edit.php",
+    "tender_view": "pages/tenders/view.php",
+    "bids": "pages/bids/index.php",
+    "users": "pages/users/index.php",
+    "profile": "pages/user/profile.php",
+    "settings": "pages/settings/index.php",
+    "reports": "pages/reports/index.php",
+    "404": "pages/errors/404.php",
+    "500": "pages/errors/500.php",
+    "403": "pages/errors/403.php"
+  },
+  
+  "settings": {
+    "customizable": true,
+    "color_schemes": [
+      {
+        "name": "default",
+        "display_name": "Professional Blue",
+        "primary": "#2563eb",
+        "secondary": "#64748b",
+        "success": "#10b981",
+        "danger": "#ef4444",
+        "warning": "#f59e0b",
+        "info": "#06b6d4",
+        "light": "#f8fafc",
+        "dark": "#1e293b"
+      },
+      {
+        "name": "corporate",
+        "display_name": "Corporate Gray",
+        "primary": "#374151",
+        "secondary": "#6b7280",
+        "success": "#059669",
+        "danger": "#dc2626",
+        "warning": "#d97706",
+        "info": "#0891b2",
+        "light": "#f9fafb",
+        "dark": "#111827"
+      },
+      {
+        "name": "modern",
+        "display_name": "Modern Purple",
+        "primary": "#7c3aed",
+        "secondary": "#64748b",
+        "success": "#059669",
+        "danger": "#dc2626",
+        "warning": "#d97706",
+        "info": "#0284c7",
+        "light": "#faf5ff",
+        "dark": "#1e1b4b"
+      },
+      {
+        "name": "dark",
+        "display_name": "Dark Mode",
+        "primary": "#3b82f6",
+        "secondary": "#6b7280",
+        "success": "#10b981",
+        "danger": "#ef4444",
+        "warning": "#f59e0b",
+        "info": "#06b6d4",
+        "light": "#1f2937",
+        "dark": "#111827"
+      }
+    ],
+    "typography": {
+      "font_family": "Inter, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif",
+      "font_sizes": {
+        "xs": "0.75rem",
+        "sm": "0.875rem",
+        "base": "1rem",
+        "lg": "1.125rem",
+        "xl": "1.25rem",
+        "2xl": "1.5rem",
+        "3xl": "1.875rem",
+        "4xl": "2.25rem"
+      },
+      "font_weights": {
+        "light": "300",
+        "normal": "400",
+        "medium": "500",
+        "semibold": "600",
+        "bold": "700"
+      }
+    },
+    "layout_options": {
+      "sidebar_position": ["left", "right"],
+      "sidebar_style": ["fixed", "static", "overlay"],
+      "header_fixed": true,
+      "footer_fixed": false,
+      "container_fluid": true,
+      "sidebar_collapsed": false,
+      "sidebar_mini": false,
+      "boxed_layout": false,
+      "rtl_support": false
+    },
+    "dashboard_widgets": {
+      "enable_drag_drop": true,
+      "enable_resize": true,
+      "enable_minimize": true,
+      "auto_refresh": true,
+      "refresh_interval": 300
+    },
+    "data_tables": {
+      "enable_search": true,
+      "enable_sorting": true,
+      "enable_pagination": true,
+      "page_length": 25,
+      "responsive": true,
+      "export_buttons": ["excel", "pdf", "csv"]
+    }
+  },
+  
+  "hooks": {
+    "theme_loaded": "hooks/theme_loaded.php",
+    "before_render": "hooks/before_render.php",
+    "after_render": "hooks/after_render.php",
+    "enqueue_assets": "hooks/enqueue_assets.php",
+    "dashboard_init": "hooks/dashboard_init.php",
+    "sidebar_menu": "hooks/sidebar_menu.php"
+  },
+  
+  "config": {
+    "cache_assets": true,
+    "minify_css": true,
+    "minify_js": true,
+    "combine_assets": true,
+    "rtl_support": false,
+    "dark_mode": true,
+    "high_contrast": false,
+    "animations": true,
+    "transitions": true,
+    "responsive_breakpoints": {
+      "xs": "0px",
+      "sm": "576px",
+      "md": "768px",
+      "lg": "992px",
+      "xl": "1200px",
+      "xxl": "1400px"
+    },
+    "sidebar_breakpoint": "lg",
+    "enable_pwa": false,
+    "enable_offline": false,
+    "enable_notifications": true,
+    "enable_tooltips": true,
+    "enable_popovers": true,
+    "enable_modals": true,
+    "enable_dropdowns": true
+  },
+  
+  "features": {
+    "advanced_search": true,
+    "bulk_actions": true,
+    "export_data": true,
+    "print_layouts": true,
+    "keyboard_shortcuts": true,
+    "accessibility": true,
+    "multi_language": false,
+    "theme_customizer": true,
+    "widget_system": true,
+    "notification_center": true,
+    "activity_feed": true,
+    "quick_actions": true,
+    "global_search": true,
+    "command_palette": true
+  },
+  
+  "performance": {
+    "lazy_load_images": true,
+    "defer_non_critical_css": true,
+    "preload_critical_resources": true,
+    "enable_service_worker": false,
+    "enable_compression": true,
+    "optimize_images": true
+  }
+}

@@ -1,0 +1,214 @@
+{
+    "name": "TenderManager",
+    "slug": "tender-manager",
+    "version": "1.0.0",
+    "description": "Advanced tender management module with comprehensive bid processing, document handling, and workflow automation",
+    "author": "SquidJob Team",
+    "author_uri": "https://squidjob.com",
+    "plugin_uri": "https://squidjob.com/plugins/tender-manager",
+    "main": "main.php",
+    "compatibility": {
+        "min_version": "1.0.0",
+        "max_version": "2.0.0",
+        "php_version": "8.1"
+    },
+    "dependencies": [],
+    "hooks": [
+        "dashboard_widgets",
+        "menu_items",
+        "tender_created",
+        "tender_updated",
+        "tender_published",
+        "bid_submitted",
+        "bid_evaluated",
+        "document_uploaded",
+        "user_login",
+        "admin_init"
+    ],
+    "permissions": [
+        "manage_tenders",
+        "create_tender",
+        "edit_tender",
+        "delete_tender",
+        "publish_tender",
+        "evaluate_bids",
+        "award_tender",
+        "manage_documents",
+        "view_reports",
+        "export_data"
+    ],
+    "settings": {
+        "auto_publish_enabled": {
+            "type": "boolean",
+            "default": false,
+            "description": "Automatically publish tenders after creation"
+        },
+        "bid_evaluation_workflow": {
+            "type": "string",
+            "default": "manual",
+            "options": ["manual", "automated", "hybrid"],
+            "description": "Bid evaluation workflow type"
+        },
+        "document_compression": {
+            "type": "boolean",
+            "default": true,
+            "description": "Enable automatic document compression"
+        },
+        "notification_enabled": {
+            "type": "boolean",
+            "default": true,
+            "description": "Enable tender notifications"
+        },
+        "deadline_reminder_days": {
+            "type": "integer",
+            "default": 3,
+            "description": "Days before deadline to send reminders"
+        },
+        "max_file_size": {
+            "type": "integer",
+            "default": 52428800,
+            "description": "Maximum file upload size in bytes (50MB)"
+        },
+        "allowed_file_types": {
+            "type": "array",
+            "default": ["pdf", "doc", "docx", "xls", "xlsx", "jpg", "jpeg", "png"],
+            "description": "Allowed file types for uploads"
+        }
+    },
+    "database_tables": [
+        "tender_workflows",
+        "tender_evaluations",
+        "tender_documents",
+        "tender_assignments",
+        "bid_evaluations",
+        "document_versions"
+    ],
+    "menu_items": [
+        {
+            "title": "Tender Dashboard",
+            "slug": "tender-dashboard",
+            "capability": "manage_tenders",
+            "icon": "fas fa-tachometer-alt",
+            "position": 2
+        },
+        {
+            "title": "All Tenders",
+            "slug": "all-tenders",
+            "capability": "view_tenders",
+            "icon": "fas fa-list",
+            "position": 3
+        },
+        {
+            "title": "Create Tender",
+            "slug": "create-tender",
+            "capability": "create_tender",
+            "icon": "fas fa-plus-circle",
+            "position": 4
+        },
+        {
+            "title": "Bid Management",
+            "slug": "bid-management",
+            "capability": "evaluate_bids",
+            "icon": "fas fa-gavel",
+            "position": 5
+        },
+        {
+            "title": "Documents",
+            "slug": "tender-documents",
+            "capability": "manage_documents",
+            "icon": "fas fa-folder-open",
+            "position": 6
+        },
+        {
+            "title": "Reports",
+            "slug": "tender-reports",
+            "capability": "view_reports",
+            "icon": "fas fa-chart-bar",
+            "position": 7
+        }
+    ],
+    "dashboard_widgets": [
+        {
+            "id": "tender-stats",
+            "title": "Tender Statistics",
+            "description": "Overview of tender metrics",
+            "capability": "view_tenders",
+            "position": "left",
+            "priority": 1
+        },
+        {
+            "id": "recent-tenders",
+            "title": "Recent Tenders",
+            "description": "Latest tender activities",
+            "capability": "view_tenders",
+            "position": "center",
+            "priority": 2
+        },
+        {
+            "id": "pending-evaluations",
+            "title": "Pending Evaluations",
+            "description": "Bids awaiting evaluation",
+            "capability": "evaluate_bids",
+            "position": "right",
+            "priority": 3
+        },
+        {
+            "id": "deadline-alerts",
+            "title": "Deadline Alerts",
+            "description": "Upcoming tender deadlines",
+            "capability": "view_tenders",
+            "position": "right",
+            "priority": 4
+        }
+    ],
+    "api_endpoints": [
+        {
+            "method": "GET",
+            "path": "/api/v1/tenders",
+            "handler": "TenderApiController@index",
+            "capability": "view_tenders"
+        },
+        {
+            "method": "POST",
+            "path": "/api/v1/tenders",
+            "handler": "TenderApiController@store",
+            "capability": "create_tender"
+        },
+        {
+            "method": "GET",
+            "path": "/api/v1/tenders/{id}",
+            "handler": "TenderApiController@show",
+            "capability": "view_tenders"
+        },
+        {
+            "method": "PUT",
+            "path": "/api/v1/tenders/{id}",
+            "handler": "TenderApiController@update",
+            "capability": "edit_tender"
+        },
+        {
+            "method": "DELETE",
+            "path": "/api/v1/tenders/{id}",
+            "handler": "TenderApiController@destroy",
+            "capability": "delete_tender"
+        },
+        {
+            "method": "POST",
+            "path": "/api/v1/tenders/{id}/publish",
+            "handler": "TenderApiController@publish",
+            "capability": "publish_tender"
+        },
+        {
+            "method": "GET",
+            "path": "/api/v1/tenders/{id}/bids",
+            "handler": "BidApiController@index",
+            "capability": "view_bids"
+        },
+        {
+            "method": "POST",
+            "path": "/api/v1/tenders/{id}/bids",
+            "handler": "BidApiController@store",
+            "capability": "submit_bid"
+        }
+    ]
+}

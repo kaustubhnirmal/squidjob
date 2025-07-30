@@ -1,0 +1,194 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SquidJob - Offline</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background: linear-gradient(135deg, #faf5ff 0%, #ffffff 100%);
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+        }
+        
+        .offline-container {
+            max-width: 400px;
+            width: 100%;
+            text-align: center;
+        }
+        
+        .offline-icon {
+            width: 80px;
+            height: 80px;
+            background: #fef3c7;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 24px;
+            font-size: 40px;
+        }
+        
+        .offline-title {
+            font-size: 24px;
+            font-weight: 600;
+            color: #111827;
+            margin-bottom: 8px;
+        }
+        
+        .offline-subtitle {
+            font-size: 16px;
+            color: #6b7280;
+            margin-bottom: 32px;
+            line-height: 1.5;
+        }
+        
+        .offline-actions {
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+        }
+        
+        .offline-btn {
+            padding: 12px 24px;
+            border: none;
+            border-radius: 8px;
+            font-size: 16px;
+            font-weight: 500;
+            cursor: pointer;
+            transition: all 0.2s;
+            text-decoration: none;
+            display: inline-block;
+        }
+        
+        .offline-btn-primary {
+            background: #7c3aed;
+            color: white;
+        }
+        
+        .offline-btn-primary:hover {
+            background: #6d28d9;
+        }
+        
+        .offline-btn-secondary {
+            background: #f3f4f6;
+            color: #374151;
+        }
+        
+        .offline-btn-secondary:hover {
+            background: #e5e7eb;
+        }
+        
+        .offline-tips {
+            margin-top: 32px;
+            padding: 16px;
+            background: #f8fafc;
+            border-radius: 8px;
+            text-align: left;
+        }
+        
+        .offline-tips h3 {
+            font-size: 14px;
+            font-weight: 600;
+            color: #374151;
+            margin-bottom: 8px;
+        }
+        
+        .offline-tips ul {
+            list-style: none;
+            font-size: 14px;
+            color: #6b7280;
+            line-height: 1.6;
+        }
+        
+        .offline-tips li {
+            margin-bottom: 4px;
+            padding-left: 16px;
+            position: relative;
+        }
+        
+        .offline-tips li:before {
+            content: "•";
+            color: #7c3aed;
+            font-weight: bold;
+            position: absolute;
+            left: 0;
+        }
+        
+        @media (max-width: 480px) {
+            .offline-container {
+                max-width: 100%;
+            }
+            
+            .offline-title {
+                font-size: 20px;
+            }
+            
+            .offline-subtitle {
+                font-size: 14px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="offline-container">
+        <div class="offline-icon">📶</div>
+        <h1 class="offline-title">You're Offline</h1>
+        <p class="offline-subtitle">
+            It looks like you've lost your internet connection. 
+            Don't worry - you can still access your saved data and work offline.
+        </p>
+        
+        <div class="offline-actions">
+            <button class="offline-btn offline-btn-primary" onclick="window.location.reload()">
+                Try Again
+            </button>
+            <button class="offline-btn offline-btn-secondary" onclick="window.history.back()">
+                Go Back
+            </button>
+        </div>
+        
+        <div class="offline-tips">
+            <h3>Offline Tips:</h3>
+            <ul>
+                <li>Check your internet connection</li>
+                <li>Try refreshing the page</li>
+                <li>Your data is saved locally</li>
+                <li>Changes will sync when online</li>
+            </ul>
+        </div>
+    </div>
+    
+    <script>
+        // Check for online status
+        function checkOnlineStatus() {
+            if (navigator.onLine) {
+                window.location.reload();
+            }
+        }
+        
+        // Listen for online events
+        window.addEventListener('online', checkOnlineStatus);
+        
+        // Check every 5 seconds
+        setInterval(checkOnlineStatus, 5000);
+        
+        // Try to reconnect when page becomes visible
+        document.addEventListener('visibilitychange', function() {
+            if (!document.hidden && navigator.onLine) {
+                window.location.reload();
+            }
+        });
+    </script>
+</body>
+</html> 

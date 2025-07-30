@@ -1,0 +1,87 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="400" height="300" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 300">
+  <!-- Woman illustration -->
+  <g transform="translate(50, 30)">
+    <!-- Hair -->
+    <path d="M100,80 C60,80 50,30 80,10 C110,-10 130,10 140,30 C150,50 140,80 100,80 Z" fill="#1A202C"/>
+    
+    <!-- Face -->
+    <circle cx="110" cy="50" r="30" fill="#F8D8C0"/>
+    
+    <!-- Eyes -->
+    <ellipse cx="100" cy="45" rx="3" ry="4" fill="#1A202C"/>
+    <ellipse cx="120" cy="45" rx="3" ry="4" fill="#1A202C"/>
+    
+    <!-- Eyebrows -->
+    <path d="M95,38 C98,36 102,36 105,38" stroke="#1A202C" stroke-width="1.5" fill="none"/>
+    <path d="M115,38 C118,36 122,36 125,38" stroke="#1A202C" stroke-width="1.5" fill="none"/>
+    
+    <!-- Nose -->
+    <path d="M110,50 C112,55 108,55 110,58" stroke="#E89C78" stroke-width="1.5" fill="none"/>
+    
+    <!-- Smile -->
+    <path d="M100,65 C105,70 115,70 120,65" stroke="#E89C78" stroke-width="1.5" fill="none"/>
+    
+    <!-- Neck -->
+    <path d="M105,80 L105,95 L115,95 L115,80" fill="#F8D8C0"/>
+    
+    <!-- Body/Clothing -->
+    <path d="M85,95 C85,125 80,160 80,190 C80,200 135,200 140,190 C140,160 135,125 135,95 Z" fill="#9C27B0"/>
+    <path d="M85,95 L70,150 M135,95 L150,150" stroke="#4A148C" stroke-width="1.5"/>
+    
+    <!-- Arms -->
+    <path d="M70,150 C60,160 50,170 60,180" stroke="#F8D8C0" stroke-width="10" stroke-linecap="round"/>
+    <path d="M150,150 C160,160 170,170 165,185" stroke="#F8D8C0" stroke-width="10" stroke-linecap="round"/>
+  </g>
+  
+  <!-- Laptop -->
+  <g transform="translate(160, 170)">
+    <rect x="0" y="0" width="120" height="80" rx="5" fill="#E2E8F0"/>
+    <rect x="5" y="5" width="110" height="70" fill="#2D3748"/>
+    <rect x="0" y="80" width="120" height="10" rx="5" fill="#A0AEC0"/>
+    <path d="M-20,90 L140,90 L130,110 L-10,110 Z" fill="#A0AEC0"/>
+  </g>
+  
+  <!-- The letters BMS on the laptop screen -->
+  <text x="220" y="210" font-family="Arial" font-size="18" font-weight="bold" fill="#FFFFFF" text-anchor="middle">BMS</text>
+  
+  <!-- Icons floating around -->
+  <g fill="none" stroke="#CBD5E0" stroke-width="1">
+    <!-- Document icon -->
+    <rect x="140" y="50" width="20" height="25" rx="2" />
+    <line x1="145" y1="57" x2="155" y2="57" />
+    <line x1="145" y1="62" x2="155" y2="62" />
+    <line x1="145" y1="67" x2="155" y2="67" />
+    
+    <!-- Chart icon -->
+    <rect x="170" y="50" width="25" height="25" rx="2" />
+    <line x1="175" y1="65" x2="175" y2="70" />
+    <line x1="180" y1="60" x2="180" y2="70" />
+    <line x1="185" y1="55" x2="185" y2="70" />
+    <line x1="190" y1="63" x2="190" y2="70" />
+    
+    <!-- Gear icon -->
+    <circle cx="290" cy="60" r="10" />
+    <circle cx="290" cy="60" r="4" />
+    <line x1="290" y1="46" x2="290" y2="50" />
+    <line x1="290" y1="70" x2="290" y2="74" />
+    <line x1="276" y1="60" x2="280" y2="60" />
+    <line x1="300" y1="60" x2="304" y2="60" />
+    <line x1="279.5" y1="49.5" x2="282.5" y2="52.5" />
+    <line x1="297.5" y1="67.5" x2="300.5" y2="70.5" />
+    <line x1="279.5" y1="70.5" x2="282.5" y2="67.5" />
+    <line x1="297.5" y1="52.5" x2="300.5" y2="49.5" />
+    
+    <!-- Chat icon -->
+    <rect x="260" y="100" width="25" height="20" rx="5" />
+    <path d="M265,120 L268,115 L275,115 L278,120" />
+    
+    <!-- User icon -->
+    <circle cx="210" cy="100" r="7" />
+    <path d="M200,115 C200,108 220,108 220,115" />
+    
+    <!-- Phone icon -->
+    <rect x="300" y="140" width="15" height="25" rx="2" />
+    <line x1="307.5" y1="145" x2="307.5" y2="145" />
+  </g>
+</svg>

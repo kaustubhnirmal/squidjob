@@ -1,0 +1,129 @@
+{
+  "name": "default",
+  "display_name": "SquidJob Default Theme",
+  "description": "Default professional theme for SquidJob Tender Management System",
+  "version": "1.0.0",
+  "author": "SquidJob Team",
+  "author_url": "https://squidjob.com",
+  "screenshot": "screenshot.png",
+  "tags": ["default", "professional", "blue", "responsive"],
+  
+  "compatibility": {
+    "min_version": "1.0.0",
+    "max_version": "*",
+    "php_version": ">=8.1"
+  },
+  
+  "assets": {
+    "css": [
+      "assets/css/bootstrap.min.css",
+      "assets/css/fontawesome.min.css",
+      "assets/css/theme.css",
+      "assets/css/components.css",
+      "assets/css/responsive.css"
+    ],
+    "js": [
+      "assets/js/bootstrap.bundle.min.js",
+      "assets/js/jquery.min.js",
+      "assets/js/theme.js",
+      "assets/js/components.js"
+    ],
+    "fonts": [
+      "assets/fonts/inter/inter.woff2",
+      "assets/fonts/fontawesome/fa-solid-900.woff2"
+    ],
+    "images": {
+      "logo": "assets/images/logo.svg",
+      "favicon": "assets/images/favicon.ico",
+      "hero": "assets/images/hero-bg.jpg",
+      "placeholder": "assets/images/placeholder.png"
+    }
+  },
+  
+  "layout": {
+    "master": "layouts/master.php",
+    "auth": "layouts/auth.php",
+    "dashboard": "layouts/dashboard.php",
+    "error": "layouts/error.php"
+  },
+  
+  "components": {
+    "header": "components/header.php",
+    "footer": "components/footer.php",
+    "sidebar": "components/sidebar.php",
+    "navbar": "components/navbar.php",
+    "breadcrumb": "components/breadcrumb.php"
+  },
+  
+  "pages": {
+    "home": "pages/home.php",
+    "login": "pages/auth/login.php",
+    "dashboard": "pages/dashboard/index.php",
+    "tenders": "pages/tenders/index.php",
+    "profile": "pages/user/profile.php",
+    "404": "pages/errors/404.php",
+    "500": "pages/errors/500.php"
+  },
+  
+  "settings": {
+    "customizable": true,
+    "color_schemes": [
+      {
+        "name": "default",
+        "primary": "#007bff",
+        "secondary": "#6c757d",
+        "success": "#28a745",
+        "danger": "#dc3545",
+        "warning": "#ffc107",
+        "info": "#17a2b8"
+      },
+      {
+        "name": "dark",
+        "primary": "#375a7f",
+        "secondary": "#444",
+        "success": "#00bc8c",
+        "danger": "#e74c3c",
+        "warning": "#f39c12",
+        "info": "#3498db"
+      }
+    ],
+    "typography": {
+      "font_family": "Inter, sans-serif",
+      "font_sizes": {
+        "small": "0.875rem",
+        "normal": "1rem",
+        "large": "1.125rem",
+        "xlarge": "1.25rem"
+      }
+    },
+    "layout_options": {
+      "sidebar_position": ["left", "right"],
+      "header_fixed": true,
+      "footer_fixed": false,
+      "container_fluid": false
+    }
+  },
+  
+  "hooks": {
+    "theme_loaded": "hooks/theme_loaded.php",
+    "before_render": "hooks/before_render.php",
+    "after_render": "hooks/after_render.php",
+    "enqueue_assets": "hooks/enqueue_assets.php"
+  },
+  
+  "config": {
+    "cache_assets": true,
+    "minify_css": true,
+    "minify_js": true,
+    "rtl_support": false,
+    "dark_mode": true,
+    "responsive_breakpoints": {
+      "xs": "0px",
+      "sm": "576px",
+      "md": "768px",
+      "lg": "992px",
+      "xl": "1200px",
+      "xxl": "1400px"
+    }
+  }
+}

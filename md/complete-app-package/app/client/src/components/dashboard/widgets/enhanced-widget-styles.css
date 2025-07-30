@@ -1,0 +1,641 @@
+/**
+ * Enhanced Dashboard Widget Styles
+ * 
+ * Comprehensive styling for the enhanced dashboard widget system with:
+ * - Purple gradient theme (#7c3aed to #a855f7)
+ * - Responsive design (mobile-first approach)
+ * - Loading states with skeleton animation
+ * - Accessibility compliance (WCAG 2.1 AA)
+ * - Performance optimization for 1000+ data points
+ * - Dark/light theme support
+ * 
+ * @author SquidJob Development Team
+ * @version 2.0.0
+ * @since 2025-01-01
+ */
+
+/* Enhanced Widget Base Styles */
+.enhanced-widget {
+  @apply relative overflow-hidden;
+  background: linear-gradient(135deg, #faf5ff 0%, #ffffff 100%);
+  border: 1px solid #e9d5ff;
+  border-radius: 12px;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.1), 0 1px 2px 0 rgba(0, 0, 0, 0.06);
+}
+
+.enhanced-widget:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 10px 25px -5px rgba(124, 58, 237, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
+  border-color: #a78bfa;
+}
+
+.enhanced-widget:focus-within {
+  outline: 2px solid #7c3aed;
+  outline-offset: 2px;
+}
+
+/* Widget Skeleton Loading Animation */
+.widget-skeleton {
+  @apply relative overflow-hidden;
+}
+
+.widget-skeleton::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: -100%;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(
+    90deg,
+    transparent,
+    rgba(124, 58, 237, 0.1),
+    transparent
+  );
+  animation: skeleton-shimmer 1.5s infinite;
+}
+
+@keyframes skeleton-shimmer {
+  0% {
+    left: -100%;
+  }
+  100% {
+    left: 100%;
+  }
+}
+
+/* Widget Error State */
+.widget-error {
+  @apply border-red-200 bg-red-50;
+}
+
+.widget-error .widget-error-icon {
+  @apply text-red-400;
+}
+
+/* Enhanced Widget Header */
+.enhanced-widget .widget-header {
+  @apply flex items-center justify-between p-4 pb-2;
+  border-bottom: 1px solid #f3e8ff;
+}
+
+.enhanced-widget .widget-title {
+  @apply text-lg font-semibold;
+  color: #4c1d95;
+}
+
+.enhanced-widget .widget-controls {
+  @apply flex items-center gap-2;
+}
+
+/* Widget Control Buttons */
+.widget-control-btn {
+  @apply p-2 rounded-lg transition-all duration-200;
+  color: #6b7280;
+  background: transparent;
+  border: none;
+  cursor: pointer;
+}
+
+.widget-control-btn:hover {
+  @apply bg-purple-50;
+  color: #7c3aed;
+}
+
+.widget-control-btn:focus {
+  @apply outline-none ring-2 ring-purple-500 ring-offset-2;
+}
+
+.widget-control-btn.active {
+  @apply bg-purple-100 text-purple-700;
+}
+
+/* Statistics Widget Styles */
+.stat-card {
+  @apply p-4 rounded-lg border transition-all duration-200;
+  background: linear-gradient(135deg, #ffffff 0%, #faf5ff 100%);
+  border: 1px solid #e9d5ff;
+}
+
+.stat-card:hover {
+  transform: translateY(-1px);
+  box-shadow: 0 4px 12px rgba(124, 58, 237, 0.15);
+}
+
+.stat-card .stat-icon {
+  @apply p-2 rounded-lg;
+  background: linear-gradient(135deg, #7c3aed 0%, #8b5cf6 100%);
+  color: white;
+}
+
+.stat-card .stat-value {
+  @apply text-2xl font-bold;
+  background: linear-gradient(135deg, #7c3aed 0%, #8b5cf6 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+.stat-card .stat-trend {
+  @apply flex items-center gap-1 text-xs font-medium;
+}
+
+.stat-card .stat-trend.positive {
+  color: #10b981;
+}
+
+.stat-card .stat-trend.negative {
+  color: #ef4444;
+}
+
+/* Progress Bar Animation */
+.stat-card .progress-bar {
+  @apply w-full bg-gray-200 rounded-full h-2 overflow-hidden;
+}
+
+.stat-card .progress-fill {
+  @apply h-2 rounded-full transition-all duration-1000;
+  background: linear-gradient(90deg, #7c3aed 0%, #8b5cf6 100%);
+  animation: progress-fill 1s ease-out;
+}
+
+@keyframes progress-fill {
+  from {
+    width: 0%;
+  }
+  to {
+    width: var(--progress-width);
+  }
+}
+
+/* Chart Widget Styles */
+.chart-container {
+  @apply relative;
+  min-height: 300px;
+}
+
+.chart-container .recharts-wrapper {
+  @apply rounded-lg;
+}
+
+.chart-container .recharts-cartesian-grid-horizontal line,
+.chart-container .recharts-cartesian-grid-vertical line {
+  stroke: #e5e7eb;
+  stroke-width: 1;
+}
+
+.chart-container .recharts-tooltip-wrapper {
+  @apply rounded-lg shadow-lg border-0;
+  background: rgba(255, 255, 255, 0.95);
+  backdrop-filter: blur(10px);
+}
+
+/* Timeline Widget Styles */
+.timeline-container {
+  @apply space-y-4;
+}
+
+.timeline-item {
+  @apply flex items-start gap-3 p-3 rounded-lg transition-colors;
+  background: linear-gradient(135deg, #ffffff 0%, #faf5ff 100%);
+  border: 1px solid #f3e8ff;
+}
+
+.timeline-item:hover {
+  @apply bg-purple-50;
+  border-color: #a78bfa;
+}
+
+.timeline-item .timeline-avatar {
+  @apply flex-shrink-0 w-8 h-8 rounded-full flex items-center justify-center text-white text-sm font-medium;
+  background: linear-gradient(135deg, #7c3aed 0%, #8b5cf6 100%);
+}
+
+.timeline-item .timeline-content {
+  @apply flex-1 min-w-0;
+}
+
+.timeline-item .timeline-user {
+  @apply font-medium text-sm;
+  color: #4c1d95;
+}
+
+.timeline-item .timeline-description {
+  @apply text-sm text-gray-700 mb-1;
+}
+
+.timeline-item .timeline-time {
+  @apply text-xs text-gray-500;
+}
+
+/* Countdown Widget Styles */
+.countdown-container {
+  @apply space-y-4;
+}
+
+.countdown-item {
+  @apply p-4 rounded-lg border transition-all duration-200;
+  background: linear-gradient(135deg, #ffffff 0%, #faf5ff 100%);
+}
+
+.countdown-item.urgent {
+  @apply border-red-200 bg-red-50;
+}
+
+.countdown-item.warning {
+  @apply border-yellow-200 bg-yellow-50;
+}
+
+.countdown-item.normal {
+  @apply border-green-200 bg-green-50;
+}
+
+.countdown-item .countdown-time {
+  @apply text-2xl font-bold;
+  background: linear-gradient(135deg, #7c3aed 0%, #8b5cf6 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+.countdown-item .countdown-progress {
+  @apply w-full bg-gray-200 rounded-full h-2 overflow-hidden;
+}
+
+.countdown-item .countdown-progress-fill {
+  @apply h-2 rounded-full transition-all duration-500;
+  background: linear-gradient(90deg, #7c3aed 0%, #8b5cf6 100%);
+}
+
+/* Insights Widget Styles */
+.insights-container {
+  @apply space-y-4;
+}
+
+.insight-item {
+  @apply p-4 rounded-lg border transition-all duration-200;
+  background: linear-gradient(135deg, #ffffff 0%, #faf5ff 100%);
+  border: 1px solid #e9d5ff;
+}
+
+.insight-item:hover {
+  transform: translateY(-1px);
+  box-shadow: 0 4px 12px rgba(124, 58, 237, 0.15);
+}
+
+.insight-item .insight-header {
+  @apply flex items-start justify-between mb-3;
+}
+
+.insight-item .insight-title {
+  @apply font-medium;
+  color: #4c1d95;
+}
+
+.insight-item .insight-confidence {
+  @apply text-xs;
+  color: #7c3aed;
+  border-color: #a78bfa;
+}
+
+.insight-item .insight-description {
+  @apply text-sm text-gray-600 mb-4;
+}
+
+.insight-item .insight-actions {
+  @apply flex gap-2 flex-wrap;
+}
+
+/* Full Screen Modal Styles */
+.widget-fullscreen {
+  @apply fixed inset-0 z-50 flex items-center justify-center;
+  background: rgba(0, 0, 0, 0.5);
+  backdrop-filter: blur(4px);
+}
+
+.widget-fullscreen .widget-fullscreen-content {
+  @apply bg-white rounded-lg shadow-2xl max-w-7xl w-full h-[90vh] mx-4;
+  background: linear-gradient(135deg, #ffffff 0%, #faf5ff 100%);
+}
+
+.widget-fullscreen .widget-fullscreen-header {
+  @apply flex items-center justify-between p-6 border-b;
+  border-color: #e9d5ff;
+}
+
+.widget-fullscreen .widget-fullscreen-body {
+  @apply flex-1 overflow-auto p-6;
+}
+
+/* Dark Theme Support */
+.dark .enhanced-widget {
+  background: linear-gradient(135deg, #1e1b4b 0%, #312e81 100%);
+  border-color: #4c1d95;
+}
+
+.dark .enhanced-widget .widget-title {
+  color: #e9d5ff;
+}
+
+.dark .stat-card {
+  background: linear-gradient(135deg, #312e81 0%, #1e1b4b 100%);
+  border-color: #4c1d95;
+}
+
+.dark .timeline-item {
+  background: linear-gradient(135deg, #312e81 0%, #1e1b4b 100%);
+  border-color: #4c1d95;
+}
+
+.dark .countdown-item {
+  background: linear-gradient(135deg, #312e81 0%, #1e1b4b 100%);
+}
+
+.dark .insight-item {
+  background: linear-gradient(135deg, #312e81 0%, #1e1b4b 100%);
+  border-color: #4c1d95;
+}
+
+/* Responsive Design */
+@media (max-width: 640px) {
+  .enhanced-widget {
+    @apply mx-2;
+  }
+  
+  .stat-card {
+    @apply p-3;
+  }
+  
+  .stat-card .stat-value {
+    @apply text-xl;
+  }
+  
+  .chart-container {
+    min-height: 250px;
+  }
+  
+  .timeline-item {
+    @apply p-2;
+  }
+  
+  .countdown-item {
+    @apply p-3;
+  }
+  
+  .insight-item {
+    @apply p-3;
+  }
+}
+
+@media (min-width: 641px) and (max-width: 768px) {
+  .enhanced-widget {
+    @apply mx-4;
+  }
+  
+  .chart-container {
+    min-height: 280px;
+  }
+}
+
+@media (min-width: 769px) and (max-width: 1024px) {
+  .enhanced-widget {
+    @apply mx-6;
+  }
+  
+  .chart-container {
+    min-height: 320px;
+  }
+}
+
+@media (min-width: 1025px) {
+  .enhanced-widget {
+    @apply mx-8;
+  }
+  
+  .chart-container {
+    min-height: 350px;
+  }
+}
+
+/* Accessibility Enhancements */
+.enhanced-widget[data-focus-visible] {
+  outline: 2px solid #7c3aed;
+  outline-offset: 2px;
+}
+
+.widget-control-btn[data-focus-visible] {
+  outline: 2px solid #7c3aed;
+  outline-offset: 2px;
+}
+
+/* High Contrast Mode Support */
+@media (prefers-contrast: high) {
+  .enhanced-widget {
+    border-width: 2px;
+  }
+  
+  .stat-card {
+    border-width: 2px;
+  }
+  
+  .timeline-item {
+    border-width: 2px;
+  }
+  
+  .countdown-item {
+    border-width: 2px;
+  }
+  
+  .insight-item {
+    border-width: 2px;
+  }
+}
+
+/* Reduced Motion Support */
+@media (prefers-reduced-motion: reduce) {
+  .enhanced-widget,
+  .stat-card,
+  .timeline-item,
+  .countdown-item,
+  .insight-item {
+    transition: none;
+  }
+  
+  .stat-card .progress-fill,
+  .countdown-item .countdown-progress-fill {
+    animation: none;
+  }
+  
+  .widget-skeleton::before {
+    animation: none;
+  }
+}
+
+/* Print Styles */
+@media print {
+  .enhanced-widget {
+    break-inside: avoid;
+    box-shadow: none;
+    border: 1px solid #000;
+  }
+  
+  .widget-controls {
+    display: none;
+  }
+  
+  .chart-container {
+    min-height: 200px;
+  }
+}
+
+/* Performance Optimizations */
+.enhanced-widget {
+  will-change: transform;
+}
+
+.chart-container {
+  contain: layout style paint;
+}
+
+.timeline-container {
+  contain: layout style;
+}
+
+/* Custom Scrollbar for Widget Content */
+.widget-fullscreen-body::-webkit-scrollbar {
+  width: 8px;
+}
+
+.widget-fullscreen-body::-webkit-scrollbar-track {
+  background: #f3e8ff;
+  border-radius: 4px;
+}
+
+.widget-fullscreen-body::-webkit-scrollbar-thumb {
+  background: linear-gradient(135deg, #7c3aed 0%, #8b5cf6 100%);
+  border-radius: 4px;
+}
+
+.widget-fullscreen-body::-webkit-scrollbar-thumb:hover {
+  background: linear-gradient(135deg, #6d28d9 0%, #7c3aed 100%);
+}
+
+/* Animation Keyframes */
+@keyframes fadeInUp {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes slideInRight {
+  from {
+    opacity: 0;
+    transform: translateX(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+@keyframes pulse {
+  0%, 100% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0.5;
+  }
+}
+
+/* Animation Classes */
+.animate-fade-in-up {
+  animation: fadeInUp 0.5s ease-out;
+}
+
+.animate-slide-in-right {
+  animation: slideInRight 0.3s ease-out;
+}
+
+.animate-pulse {
+  animation: pulse 2s cubic-bezier(0.4, 0, 0.6, 1) infinite;
+}
+
+/* Loading States */
+.widget-loading {
+  @apply relative overflow-hidden;
+}
+
+.widget-loading::after {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(
+    90deg,
+    transparent,
+    rgba(124, 58, 237, 0.1),
+    transparent
+  );
+  animation: loading-shimmer 1.5s infinite;
+}
+
+@keyframes loading-shimmer {
+  0% {
+    transform: translateX(-100%);
+  }
+  100% {
+    transform: translateX(100%);
+  }
+}
+
+/* Error States */
+.widget-error {
+  @apply border-red-200 bg-red-50;
+}
+
+.widget-error .error-icon {
+  @apply text-red-400;
+}
+
+.widget-error .error-message {
+  @apply text-red-600 font-medium;
+}
+
+.widget-error .error-description {
+  @apply text-red-500 text-sm;
+}
+
+/* Success States */
+.widget-success {
+  @apply border-green-200 bg-green-50;
+}
+
+.widget-success .success-icon {
+  @apply text-green-400;
+}
+
+/* Warning States */
+.widget-warning {
+  @apply border-yellow-200 bg-yellow-50;
+}
+
+.widget-warning .warning-icon {
+  @apply text-yellow-400;
+}
+
+/* Info States */
+.widget-info {
+  @apply border-blue-200 bg-blue-50;
+}
+
+.widget-info .info-icon {
+  @apply text-blue-400;
+} 

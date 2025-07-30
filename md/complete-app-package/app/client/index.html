@@ -1,0 +1,158 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1, user-scalable=no" />
+    
+    <!-- PWA Meta Tags -->
+    <meta name="theme-color" content="#7c3aed" />
+    <meta name="apple-mobile-web-app-capable" content="yes" />
+    <meta name="apple-mobile-web-app-status-bar-style" content="default" />
+    <meta name="apple-mobile-web-app-title" content="SquidJob" />
+    <meta name="msapplication-TileColor" content="#7c3aed" />
+    <meta name="msapplication-config" content="/browserconfig.xml" />
+    
+    <!-- PWA Manifest -->
+    <link rel="manifest" href="/manifest.json" />
+    
+    <!-- Apple Touch Icons -->
+    <link rel="apple-touch-icon" href="/icons/icon-152x152.png" />
+    <link rel="apple-touch-icon" sizes="152x152" href="/icons/icon-152x152.png" />
+    <link rel="apple-touch-icon" sizes="180x180" href="/icons/icon-180x180.png" />
+    <link rel="apple-touch-icon" sizes="167x167" href="/icons/icon-167x167.png" />
+    
+    <!-- Favicon -->
+    <link rel="icon" type="image/png" sizes="32x32" href="/icons/icon-32x32.png" />
+    <link rel="icon" type="image/png" sizes="16x16" href="/icons/icon-16x16.png" />
+    
+    <!-- Preload critical resources -->
+    <link rel="preload" href="/static/css/main.css" as="style" />
+    <link rel="preload" href="/static/js/bundle.js" as="script" />
+    
+    <!-- DNS Prefetch for external resources -->
+    <link rel="dns-prefetch" href="//fonts.googleapis.com" />
+    <link rel="dns-prefetch" href="//cdn.jsdelivr.net" />
+    
+    <title>SquidJob Tender Management</title>
+  </head>
+  <body>
+    <div id="root"></div>
+    
+    <!-- PWA Install Prompt -->
+    <div id="pwa-install-prompt" class="pwa-install-prompt" style="display: none;">
+      <div class="pwa-install-content">
+        <div class="pwa-install-icon">
+          <img src="/icons/icon-96x96.png" alt="SquidJob" />
+        </div>
+        <div class="pwa-install-text">
+          <h3>Install SquidJob</h3>
+          <p>Add to home screen for quick access</p>
+        </div>
+        <div class="pwa-install-actions">
+          <button id="pwa-install-btn" class="pwa-install-btn">Install</button>
+          <button id="pwa-dismiss-btn" class="pwa-dismiss-btn">Not Now</button>
+        </div>
+      </div>
+    </div>
+    
+    <!-- Offline Indicator -->
+    <div id="offline-indicator" class="offline-indicator" style="display: none;">
+      <div class="offline-content">
+        <span class="offline-icon">📶</span>
+        <span class="offline-text">You're offline. Some features may be limited.</span>
+      </div>
+    </div>
+    
+    <script type="module" src="/src/main.tsx"></script>
+    
+    <!-- PWA Service Worker Registration -->
+    <script>
+      // PWA Service Worker Registration
+      if ('serviceWorker' in navigator) {
+        window.addEventListener('load', () => {
+          navigator.serviceWorker.register('/sw.js')
+            .then((registration) => {
+              console.log('SW registered: ', registration);
+              
+              // Check for updates
+              registration.addEventListener('updatefound', () => {
+                const newWorker = registration.installing;
+                newWorker.addEventListener('statechange', () => {
+                  if (newWorker.state === 'installed' && navigator.serviceWorker.controller) {
+                    // New content is available, show update prompt
+                    showUpdatePrompt();
+                  }
+                });
+              });
+            })
+            .catch((registrationError) => {
+              console.log('SW registration failed: ', registrationError);
+            });
+        });
+      }
+      
+      // PWA Install Prompt
+      let deferredPrompt;
+      const pwaInstallPrompt = document.getElementById('pwa-install-prompt');
+      const pwaInstallBtn = document.getElementById('pwa-install-btn');
+      const pwaDismissBtn = document.getElementById('pwa-dismiss-btn');
+      
+      window.addEventListener('beforeinstallprompt', (e) => {
+        e.preventDefault();
+        deferredPrompt = e;
+        
+        // Show install prompt after 3 seconds
+        setTimeout(() => {
+          if (deferredPrompt && !localStorage.getItem('pwa-install-dismissed')) {
+            pwaInstallPrompt.style.display = 'flex';
+          }
+        }, 3000);
+      });
+      
+      pwaInstallBtn?.addEventListener('click', async () => {
+        if (deferredPrompt) {
+          deferredPrompt.prompt();
+          const { outcome } = await deferredPrompt.userChoice;
+          console.log(`User response to the install prompt: ${outcome}`);
+          deferredPrompt = null;
+          pwaInstallPrompt.style.display = 'none';
+        }
+      });
+      
+      pwaDismissBtn?.addEventListener('click', () => {
+        pwaInstallPrompt.style.display = 'none';
+        localStorage.setItem('pwa-install-dismissed', 'true');
+      });
+      
+      // Offline/Online Detection
+      const offlineIndicator = document.getElementById('offline-indicator');
+      
+      window.addEventListener('online', () => {
+        offlineIndicator.style.display = 'none';
+        document.body.classList.remove('offline');
+      });
+      
+      window.addEventListener('offline', () => {
+        offlineIndicator.style.display = 'flex';
+        document.body.classList.add('offline');
+      });
+      
+      // Update Prompt
+      function showUpdatePrompt() {
+        if (confirm('A new version of SquidJob is available. Would you like to update?')) {
+          window.location.reload();
+        }
+      }
+      
+      // Handle service worker messages
+      navigator.serviceWorker?.addEventListener('message', (event) => {
+        if (event.data && event.data.type === 'UPDATE_AVAILABLE') {
+          showUpdatePrompt();
+        }
+      });
+    </script>
+    
+    <!-- This is a replit script which adds a banner on the top of the page when opened in development mode outside the replit environment -->
+    <script type="text/javascript" src="https://replit.com/public/js/replit-dev-banner.js"></script>
+  </body>
+</html>

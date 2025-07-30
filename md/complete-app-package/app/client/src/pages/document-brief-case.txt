@@ -1,0 +1,754 @@
+import React, { useState, useEffect } from "react";
+import { useToast } from "@/hooks/use-toast";
+import { Briefcase, ChevronDown, Edit, FileText, Plus, Trash2, Download, X, FolderPlus, FolderMinus } from "lucide-react";
+import { Button } from "@/components/ui/button";
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { Input } from "@/components/ui/input";
+import { 
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue
+} from "@/components/ui/select";
+import { Checkbox } from "@/components/ui/checkbox";
+import { Dialog, DialogContent, DialogHeader, DialogTitle } from "@/components/ui/dialog";
+
+// Interface for document brief case type
+interface DocumentBriefItem {
+  id: number;
+  folderName: string;
+  subFolderName: string;
+  fileName: string;
+  createdBy: string;
+  createdDate: string;
+}
+
+export default function DocumentBriefCase() {
+  const { toast } = useToast();
+  const [showDeletedFiles, setShowDeletedFiles] = useState(false);
+  const [folderFilter, setFolderFilter] = useState("all");
+  const [subFolderFilter, setSubFolderFilter] = useState("all");
+  const [fileNameFilter, setFileNameFilter] = useState("");
+  const [selectedRows, setSelectedRows] = useState<number[]>([]);
+  const [allSelected, setAllSelected] = useState(false);
+  
+  // Mock brief case documents data
+  const [briefCaseDocuments, setBriefCaseDocuments] = useState<DocumentBriefItem[]>([
+    { id: 1, folderName: "Legal Document", subFolderName: "", fileName: "Affidavit.Pdf", createdBy: "Jaydeep Maurya", createdDate: "04-12-2024 18:12" },
+    { id: 2, folderName: "General Documents", subFolderName: "", fileName: "ISO.Pdf", createdBy: "Manish Aswani", createdDate: "03-12-2024 17:25" },
+    { id: 3, folderName: "General Documents", subFolderName: "", fileName: "PAN Card.Pdf", createdBy: "Manish Aswani", createdDate: "03-12-2024 17:24" },
+    { id: 4, folderName: "General Documents", subFolderName: "", fileName: "Cancel Cheque.Pdf", createdBy: "Manish Aswani", createdDate: "03-12-2024 17:24" },
+    { id: 5, folderName: "Financial Documents", subFolderName: "", fileName: "Turnover.Pdf", createdBy: "Manish Aswani", createdDate: "03-12-2024 17:24" },
+    { id: 6, folderName: "Financial Documents", subFolderName: "", fileName: "Financial Documents.Pdf", createdBy: "Manish Aswani", createdDate: "03-12-2024 17:23" },
+    { id: 7, folderName: "General Documents", subFolderName: "", fileName: "Balance Sheet 2021.Pdf", createdBy: "Manish Aswani", createdDate: "03-12-2024 17:23" },
+    { id: 8, folderName: "General Documents", subFolderName: "", fileName: "Company Registration.Pdf", createdBy: "Manish Aswani", createdDate: "03-12-2024 17:22" },
+    { id: 9, folderName: "General Documents", subFolderName: "", fileName: "UDYAM.Pdf", createdBy: "Manish Aswani", createdDate: "03-12-2024 17:22" },
+  ]);
+
+  // Filter brief case documents
+  const filteredBriefCaseDocuments = briefCaseDocuments.filter(doc => {
+    const matchesFolder = folderFilter === "all" || doc.folderName === folderFilter;
+    const matchesSubFolder = subFolderFilter === "all" || doc.subFolderName === subFolderFilter;
+    const matchesFileName = !fileNameFilter || doc.fileName.toLowerCase().includes(fileNameFilter.toLowerCase());
+    return matchesFolder && matchesSubFolder && matchesFileName;
+  });
+
+  // Toggle all row selection
+  const toggleAllRows = () => {
+    if (allSelected) {
+      setSelectedRows([]);
+      setAllSelected(false);
+    } else {
+      setSelectedRows(filteredBriefCaseDocuments.map(doc => doc.id));
+      setAllSelected(true);
+    }
+  };
+
+  // Toggle single row selection
+  const toggleRowSelection = (docId: number) => {
+    if (selectedRows.includes(docId)) {
+      setSelectedRows(selectedRows.filter(id => id !== docId));
+      setAllSelected(false);
+    } else {
+      setSelectedRows([...selectedRows, docId]);
+      if (selectedRows.length + 1 === filteredBriefCaseDocuments.length) {
+        setAllSelected(true);
+      }
+    }
+  };
+
+  // Clear filters
+  const clearFilters = () => {
+    setFolderFilter("all");
+    setSubFolderFilter("all");
+    setFileNameFilter("");
+    setShowDeletedFiles(false);
+  };
+
+  // Handle document actions
+  const handleEditDocument = (docId: number) => {
+    toast({
+      title: "Edit Document",
+      description: `Editing document ID: ${docId}`
+    });
+  };
+
+  // Function to download a document
+  const handleDownloadDocument = (docId: number) => {
+    // Get the document from the list
+    const docItem = briefCaseDocuments.find(item => item.id === docId);
+    
+    if (!docItem) {
+      toast({
+        title: "Error",
+        description: "Document not found",
+        variant: "destructive"
+      });
+      return;
+    }
+    
+    // Check if this is a file we've uploaded during this session
+    const uploadedFile = uploadedFiles.find(file => file.id === docId);
+    
+    let blob;
+    if (uploadedFile) {
+      // If this is a file we've uploaded, we can use the actual file
+      blob = uploadedFile.file;
+    } else {
+      // For pre-existing files, create a placeholder
+      blob = new Blob(["This is a placeholder for file content"], { type: "application/pdf" });
+    }
+    
+    const url = URL.createObjectURL(blob);
+    
+    // Create a temporary anchor element to trigger the download
+    const a = window.document.createElement("a");
+    a.href = url;
+    a.download = docItem.fileName || `document-${docId}.pdf`;
+    window.document.body.appendChild(a);
+    a.click();
+    
+    // Clean up
+    window.document.body.removeChild(a);
+    URL.revokeObjectURL(url);
+    
+    toast({
+      title: "Download Started",
+      description: `Downloading ${docItem.fileName}`
+    });
+  };
+
+  // State for file upload dialog
+  const [isAddFileOpen, setIsAddFileOpen] = useState(false);
+  const [isAddFolderOpen, setIsAddFolderOpen] = useState(false);
+  const [selectedMainFolder, setSelectedMainFolder] = useState("");
+  const [selectedSubFolder, setSelectedSubFolder] = useState("");
+  const [selectedFile, setSelectedFile] = useState<File | null>(null);
+  const [fileName, setFileName] = useState("");
+  const [newFolderName, setNewFolderName] = useState("");
+  
+  // Store custom folders with local storage persistence
+  const [customFolders, setCustomFolders] = useState<string[]>(() => {
+    // Initialize from localStorage if available
+    const savedFolders = localStorage.getItem('documentBriefCase_customFolders');
+    return savedFolders ? JSON.parse(savedFolders) : [];
+  });
+  
+  const [isDeleteFolderDialogOpen, setIsDeleteFolderDialogOpen] = useState(false);
+  const [folderToDelete, setFolderToDelete] = useState("");
+  
+  // State for uploaded files
+  const [uploadedFiles, setUploadedFiles] = useState<{id: number; name: string; folder: string; subFolder: string; file: File}[]>([]);
+  const [nextFileId, setNextFileId] = useState(() => {
+    // Initialize from localStorage if available
+    const savedNextId = localStorage.getItem('documentBriefCase_nextFileId');
+    return savedNextId ? parseInt(savedNextId, 10) : 10; // Start after the initial briefCaseDocuments
+  });
+  
+
+  
+  const handleAddNewFile = () => {
+    setIsAddFileOpen(true);
+  };
+  
+  const handleCloseAddFile = () => {
+    setIsAddFileOpen(false);
+    setSelectedMainFolder("");
+    setSelectedSubFolder("");
+    setFileName("");
+    setSelectedFile(null);
+  };
+  
+  const handleFileUpload = (e: React.ChangeEvent<HTMLInputElement>) => {
+    if (e.target.files && e.target.files[0]) {
+      setSelectedFile(e.target.files[0]);
+    }
+  };
+  
+  const handleSaveFolder = () => {
+    if (!newFolderName.trim()) {
+      toast({
+        title: "Error",
+        description: "Please enter a folder name",
+        variant: "destructive"
+      });
+      return;
+    }
+    
+    // Check if folder already exists
+    if (customFolders.includes(newFolderName.trim())) {
+      toast({
+        title: "Error",
+        description: "Folder with this name already exists",
+        variant: "destructive"
+      });
+      return;
+    }
+    
+    // Add the new folder to the list
+    setCustomFolders(prev => [...prev, newFolderName.trim()]);
+    
+    toast({
+      title: "Success",
+      description: `Folder "${newFolderName.trim()}" created successfully`
+    });
+    
+    setIsAddFolderOpen(false);
+    setNewFolderName("");
+  };
+
+  const handleDeleteFolder = () => {
+    if (!folderToDelete) {
+      toast({
+        title: "Error",
+        description: "Please select a folder to delete",
+        variant: "destructive"
+      });
+      return;
+    }
+    
+    // Remove the folder from the custom folders list
+    setCustomFolders(prevFolders => prevFolders.filter(folder => folder !== folderToDelete));
+    
+    // Show success message
+    toast({
+      title: "Success",
+      description: `Folder "${folderToDelete}" deleted successfully`
+    });
+    
+    // Close the dialog and reset
+    setIsDeleteFolderDialogOpen(false);
+    setFolderToDelete("");
+  };
+
+  const formatCurrentDateTime = () => {
+    const now = new Date();
+    const day = String(now.getDate()).padStart(2, '0');
+    const month = String(now.getMonth() + 1).padStart(2, '0');
+    const year = now.getFullYear();
+    const hours = String(now.getHours()).padStart(2, '0');
+    const minutes = String(now.getMinutes()).padStart(2, '0');
+    
+    return `${day}-${month}-${year} ${hours}:${minutes}`;
+  };
+
+  const handleSaveFile = () => {
+    if (!selectedMainFolder) {
+      toast({
+        title: "Error",
+        description: "Please select a main folder",
+        variant: "destructive"
+      });
+      return;
+    }
+    
+    if (!fileName) {
+      toast({
+        title: "Error",
+        description: "Please enter a file name",
+        variant: "destructive"
+      });
+      return;
+    }
+    
+    if (!selectedFile) {
+      toast({
+        title: "Error",
+        description: "Please select a file to upload",
+        variant: "destructive"
+      });
+      return;
+    }
+    
+    // Add the file to our uploaded files
+    const fileExtension = selectedFile.name.split('.').pop() || '';
+    const fullFileName = `${fileName}.${fileExtension}`;
+    
+    // Add file to the list with a new ID
+    const newFileId = nextFileId;
+    setNextFileId(prevId => prevId + 1);
+    
+    // Store the file for potential download later
+    setUploadedFiles(prev => [...prev, {
+      id: newFileId,
+      name: fullFileName,
+      folder: selectedMainFolder,
+      subFolder: selectedSubFolder,
+      file: selectedFile
+    }]);
+    
+    // Create a new document brief item
+    const newDocument: DocumentBriefItem = {
+      id: newFileId,
+      folderName: selectedMainFolder,
+      subFolderName: selectedSubFolder,
+      fileName: fullFileName,
+      createdBy: "Current User", // In a real app, this would be the current user
+      createdDate: formatCurrentDateTime()
+    };
+    
+    // Add to the brief case documents
+    briefCaseDocuments.push(newDocument);
+    
+    // Show success message
+    toast({
+      title: "File Uploaded",
+      description: `File "${fullFileName}" uploaded to ${selectedMainFolder}${selectedSubFolder ? ' → ' + selectedSubFolder : ''} folder`
+    });
+    
+    handleCloseAddFile();
+  };
+
+  return (
+    <main className="flex-1 p-0 bg-gray-100">
+      <div className="bg-white py-4 px-6 border-b">
+        <h1 className="text-xl font-semibold text-gray-800">Document Brief Case</h1>
+      </div>
+      
+      <div className="p-6 space-y-4">
+        <div className="flex justify-between items-center mb-2">
+          <div className="flex gap-2">
+            {selectedRows.length > 0 && (
+              <Button 
+                onClick={() => selectedRows.forEach(id => handleDownloadDocument(id))}
+                className="bg-blue-500 hover:bg-blue-600 flex items-center"
+              >
+                <Download className="h-4 w-4 mr-2" />
+                Download Selected Files
+              </Button>
+            )}
+            {customFolders.length > 0 && (
+              <Button 
+                onClick={() => setIsDeleteFolderDialogOpen(true)}
+                className="bg-red-500 hover:bg-red-600 flex items-center"
+              >
+                <FolderMinus className="h-4 w-4 mr-2" />
+                Manage Folders
+              </Button>
+            )}
+          </div>
+          <Button 
+            onClick={handleAddNewFile} 
+            className="bg-blue-500 hover:bg-blue-600"
+          >
+            <Plus className="h-4 w-4 mr-2" />
+            Add File
+          </Button>
+        </div>
+        
+        {/* Search and Filter */}
+        <Card className="shadow-sm">
+          <CardHeader className="flex flex-row items-center justify-between py-3 px-6 bg-gray-100 text-gray-800 border-b">
+            <CardTitle className="text-base font-medium flex items-center">
+              Document Brief Filter
+              <ChevronDown className="ml-2 h-4 w-4" />
+            </CardTitle>
+          </CardHeader>
+          <CardContent className="p-4 bg-white">
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mb-4">
+              <div>
+                <label className="text-sm font-medium mb-1 block text-gray-700">Folder Name</label>
+                <Select value={folderFilter} onValueChange={setFolderFilter}>
+                  <SelectTrigger className="border-gray-300 bg-white">
+                    <SelectValue placeholder="All Folders" />
+                  </SelectTrigger>
+                  <SelectContent>
+                    <SelectItem value="all">All Folders</SelectItem>
+                    <SelectItem value="Legal Document">Legal Document</SelectItem>
+                    <SelectItem value="General Documents">General Documents</SelectItem>
+                    <SelectItem value="Financial Documents">Financial Documents</SelectItem>
+                    
+                    {/* Include custom folders in filter */}
+                    {customFolders.map((folder) => (
+                      <SelectItem key={folder} value={folder}>{folder}</SelectItem>
+                    ))}
+                  </SelectContent>
+                </Select>
+              </div>
+              <div>
+                <label className="text-sm font-medium mb-1 block text-gray-700">Sub Folder Name</label>
+                <Select value={subFolderFilter} onValueChange={setSubFolderFilter}>
+                  <SelectTrigger className="border-gray-300 bg-white">
+                    <SelectValue placeholder="All Sub Folders" />
+                  </SelectTrigger>
+                  <SelectContent>
+                    <SelectItem value="all">All Sub Folders</SelectItem>
+                    <SelectItem value="contracts">Contracts</SelectItem>
+                    <SelectItem value="proposals">Proposals</SelectItem>
+                    <SelectItem value="reports">Reports</SelectItem>
+                  </SelectContent>
+                </Select>
+              </div>
+              <div>
+                <label className="text-sm font-medium mb-1 block text-gray-700">File Name</label>
+                <Input 
+                  placeholder="Search by file name" 
+                  value={fileNameFilter}
+                  onChange={(e) => setFileNameFilter(e.target.value)}
+                  className="border-gray-300 bg-white"
+                />
+              </div>
+            </div>
+            <div className="flex items-center">
+              <div className="flex items-center">
+                <Checkbox 
+                  id="showDeleted" 
+                  checked={showDeletedFiles}
+                  onCheckedChange={(checked) => setShowDeletedFiles(!!checked)}
+                />
+                <label htmlFor="showDeleted" className="text-sm ml-2 cursor-pointer text-gray-700">
+                  Show Deleted File
+                </label>
+              </div>
+              <div className="ml-auto space-x-2">
+                <Button className="bg-blue-500 hover:bg-blue-600">
+                  Search
+                </Button>
+                <Button 
+                  variant="outline"
+                  onClick={clearFilters}
+                >
+                  Clear
+                </Button>
+              </div>
+            </div>
+          </CardContent>
+        </Card>
+
+        {/* Documents Table */}
+        <div className="bg-white rounded-sm shadow">
+          <div className="overflow-x-auto">
+            <table className="w-full border-collapse">
+              <thead>
+                <tr className="bg-blue-500 text-white border-y border-gray-200">
+                  <th className="p-3 text-left">
+                    <Checkbox 
+                      checked={allSelected} 
+                      onCheckedChange={toggleAllRows}
+                    />
+                  </th>
+                  <th className="p-3 text-center text-sm font-medium">#</th>
+                  <th className="p-3 text-left text-sm font-medium">FOLDER NAME</th>
+                  <th className="p-3 text-left text-sm font-medium">SUB FOLDER NAME</th>
+                  <th className="p-3 text-left text-sm font-medium">FILE NAME</th>
+                  <th className="p-3 text-left text-sm font-medium">CREATED BY</th>
+                  <th className="p-3 text-left text-sm font-medium">CREATED DATE & TIME</th>
+                  <th className="p-3 text-center text-sm font-medium">ACTION</th>
+                </tr>
+              </thead>
+              <tbody>
+                {filteredBriefCaseDocuments.map((doc) => (
+                  <tr key={doc.id} className="border-b border-gray-200 hover:bg-gray-50">
+                    <td className="p-3 text-center">
+                      <Checkbox 
+                        checked={selectedRows.includes(doc.id)}
+                        onCheckedChange={() => toggleRowSelection(doc.id)}
+                      />
+                    </td>
+                    <td className="p-3 text-center">{doc.id}</td>
+                    <td className="p-3">{doc.folderName}</td>
+                    <td className="p-3">{doc.subFolderName || "-"}</td>
+                    <td className="p-3">{doc.fileName}</td>
+                    <td className="p-3">{doc.createdBy}</td>
+                    <td className="p-3">{doc.createdDate}</td>
+                    <td className="p-3">
+                      <div className="flex justify-center space-x-1">
+                        <button 
+                          onClick={() => handleEditDocument(doc.id)}
+                          className="text-blue-500 hover:text-blue-700"
+                        >
+                          <Edit className="h-4 w-4" />
+                        </button>
+                        <button className="text-gray-600 hover:text-gray-800">
+                          <Trash2 className="h-4 w-4" />
+                        </button>
+                        <button 
+                          onClick={() => handleDownloadDocument(doc.id)}
+                          className="text-blue-500 hover:text-blue-700"
+                        >
+                          <Download className="h-4 w-4" />
+                        </button>
+                      </div>
+                    </td>
+                  </tr>
+                ))}
+                {filteredBriefCaseDocuments.length === 0 && (
+                  <tr>
+                    <td colSpan={8} className="p-6 text-center text-gray-500">
+                      No documents found. Try adjusting your filters.
+                    </td>
+                  </tr>
+                )}
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+
+      {/* Add File Dialog */}
+      <Dialog open={isAddFileOpen} onOpenChange={setIsAddFileOpen}>
+        <DialogContent className="sm:max-w-md">
+          <div className="flex justify-between items-center border-b pb-2 mb-2">
+            <h2 className="text-lg font-semibold">Add File</h2>
+            <button 
+              onClick={handleCloseAddFile}
+              className="rounded-full h-7 w-7 flex items-center justify-center hover:bg-gray-100"
+            >
+              <X className="h-5 w-5 text-gray-500" />
+            </button>
+          </div>
+          
+          <div className="space-y-4 pt-2">
+            {/* Add New Folder Button */}
+            <div className="flex justify-end">
+              <Button 
+                variant="outline" 
+                className="flex items-center gap-1 bg-blue-500 text-white hover:bg-blue-600 w-full justify-center"
+                onClick={() => setIsAddFolderOpen(true)}
+              >
+                <Plus className="h-5 w-5" />
+                Add New Folder
+              </Button>
+            </div>
+            
+            {/* Main Folder Selection */}
+            <div>
+              <label className="text-sm font-medium mb-1 block text-gray-700">
+                Select Main Folder <span className="text-red-500">*</span>
+              </label>
+              <Select value={selectedMainFolder} onValueChange={setSelectedMainFolder}>
+                <SelectTrigger className="border-gray-300 bg-white h-10">
+                  <SelectValue placeholder="Select Main Folder" />
+                </SelectTrigger>
+                <SelectContent>
+                  <SelectItem value="Legal Document">Legal Document</SelectItem>
+                  <SelectItem value="Test Report">Test Report</SelectItem>
+                  <SelectItem value="Financial Documents">Financial Documents</SelectItem>
+                  <SelectItem value="General Documents">General Documents</SelectItem>
+                  
+                  {/* Custom folders */}
+                  {customFolders.map((folder) => (
+                    <SelectItem key={folder} value={folder}>{folder}</SelectItem>
+                  ))}
+                </SelectContent>
+              </Select>
+            </div>
+            
+            {/* Folder Name */}
+            <div>
+              <label className="text-sm font-medium mb-1 block text-gray-700">
+                Folder Name
+              </label>
+              <Select value={selectedSubFolder} onValueChange={setSelectedSubFolder}>
+                <SelectTrigger className="border-gray-300 bg-white h-10">
+                  <SelectValue placeholder="Folder name" />
+                </SelectTrigger>
+                <SelectContent>
+                  <SelectItem value="Contracts">Contracts</SelectItem>
+                  <SelectItem value="Proposals">Proposals</SelectItem>
+                  <SelectItem value="Reports">Reports</SelectItem>
+                  <SelectItem value="Agreements">Agreements</SelectItem>
+                </SelectContent>
+              </Select>
+            </div>
+            
+            {/* File Name */}
+            <div>
+              <label className="text-sm font-medium mb-1 block text-gray-700">
+                File Name<span className="text-red-500">*</span>
+              </label>
+              <Input
+                placeholder="File Name"
+                className="border-gray-300 bg-white h-10"
+                value={fileName}
+                onChange={(e) => setFileName(e.target.value)}
+              />
+            </div>
+            
+            {/* Upload File */}
+            <div>
+              <label className="text-sm font-medium mb-1 block text-gray-700">
+                Upload File<span className="text-red-500">*</span>
+              </label>
+              <div className="flex">
+                <Input 
+                  type="file" 
+                  className="hidden" 
+                  id="file-upload"
+                  onChange={handleFileUpload}
+                />
+                <div className="flex w-full">
+                  <div className="border rounded-l border-gray-300 bg-white px-3 py-2 text-sm flex-grow h-10 flex items-center">
+                    {selectedFile ? selectedFile.name : "No file chosen"}
+                  </div>
+                  <label 
+                    htmlFor="file-upload" 
+                    className="cursor-pointer bg-gray-200 hover:bg-gray-300 text-gray-700 px-3 h-10 flex items-center text-sm rounded-r border border-gray-300"
+                  >
+                    Choose File
+                  </label>
+                </div>
+              </div>
+            </div>
+            
+            {/* Action Buttons */}
+            <div className="flex justify-end space-x-2 pt-2">
+              <Button 
+                variant="secondary" 
+                onClick={handleCloseAddFile}
+                className="bg-gray-300 hover:bg-gray-400 text-gray-800 px-6"
+              >
+                Cancel
+              </Button>
+              <Button 
+                onClick={handleSaveFile}
+                className="bg-blue-500 hover:bg-blue-600 px-6"
+              >
+                Save
+              </Button>
+            </div>
+          </div>
+        </DialogContent>
+      </Dialog>
+
+      {/* Add New Folder Dialog */}
+      <Dialog open={isAddFolderOpen} onOpenChange={setIsAddFolderOpen}>
+        <DialogContent className="sm:max-w-md">
+          <DialogHeader>
+            <DialogTitle className="flex justify-between items-center text-lg font-semibold">
+              Add New Folder
+              <button 
+                onClick={() => {
+                  setIsAddFolderOpen(false);
+                  setNewFolderName("");
+                }}
+                className="rounded-full h-7 w-7 flex items-center justify-center hover:bg-gray-100"
+              >
+                <X className="h-5 w-5 text-gray-500" />
+              </button>
+            </DialogTitle>
+          </DialogHeader>
+          
+          <div className="space-y-4 pt-4">
+            <div>
+              <label className="text-sm font-medium mb-1 block text-gray-700">
+                Folder Name <span className="text-red-500">*</span>
+              </label>
+              <Input
+                placeholder="Enter folder name"
+                className="border-gray-300 bg-white h-10"
+                value={newFolderName}
+                onChange={(e) => setNewFolderName(e.target.value)}
+              />
+            </div>
+            
+            <div className="flex justify-end space-x-2 pt-2">
+              <Button 
+                variant="secondary" 
+                onClick={() => {
+                  setIsAddFolderOpen(false);
+                  setNewFolderName("");
+                }}
+                className="bg-gray-300 hover:bg-gray-400 text-gray-800 px-6"
+              >
+                Cancel
+              </Button>
+              <Button 
+                onClick={handleSaveFolder}
+                className="bg-blue-500 hover:bg-blue-600 px-6"
+                disabled={!newFolderName.trim()}
+              >
+                Save
+              </Button>
+            </div>
+          </div>
+        </DialogContent>
+      </Dialog>
+
+      {/* Delete Folder Dialog */}
+      <Dialog open={isDeleteFolderDialogOpen} onOpenChange={setIsDeleteFolderDialogOpen}>
+        <DialogContent className="sm:max-w-md">
+          <DialogHeader>
+            <DialogTitle className="flex justify-between items-center text-lg font-semibold">
+              Manage Folders
+              <button 
+                onClick={() => {
+                  setIsDeleteFolderDialogOpen(false);
+                  setFolderToDelete("");
+                }}
+                className="rounded-full h-7 w-7 flex items-center justify-center hover:bg-gray-100"
+              >
+                <X className="h-5 w-5 text-gray-500" />
+              </button>
+            </DialogTitle>
+          </DialogHeader>
+          
+          <div className="space-y-4 pt-4">
+            <div>
+              <label className="text-sm font-medium mb-1 block text-gray-700">
+                Select Folder to Delete <span className="text-red-500">*</span>
+              </label>
+              <Select value={folderToDelete} onValueChange={setFolderToDelete}>
+                <SelectTrigger className="border-gray-300 bg-white h-10">
+                  <SelectValue placeholder="Select a folder" />
+                </SelectTrigger>
+                <SelectContent>
+                  {customFolders.map((folder) => (
+                    <SelectItem key={folder} value={folder}>{folder}</SelectItem>
+                  ))}
+                </SelectContent>
+              </Select>
+            </div>
+
+            <div className="mt-4 p-3 bg-red-50 border border-red-200 rounded-md">
+              <p className="text-sm text-red-600">
+                <strong>Warning:</strong> Deleting a folder will remove all files inside it. This action cannot be undone.
+              </p>
+            </div>
+            
+            <div className="flex justify-end space-x-2 pt-2">
+              <Button 
+                variant="secondary" 
+                onClick={() => {
+                  setIsDeleteFolderDialogOpen(false);
+                  setFolderToDelete("");
+                }}
+                className="bg-gray-300 hover:bg-gray-400 text-gray-800 px-6"
+              >
+                Cancel
+              </Button>
+              <Button 
+                onClick={handleDeleteFolder}
+                className="bg-red-500 hover:bg-red-600 px-6"
+                disabled={!folderToDelete}
+              >
+                Delete Folder
+              </Button>
+            </div>
+          </div>
+        </DialogContent>
+      </Dialog>
+    </main>
+  );
+}

@@ -1,0 +1,60 @@
+{
+  "name": "squidjob-frontend",
+  "version": "1.0.0",
+  "description": "SquidJob Tender Management System - Frontend Assets",
+  "main": "public/assets/js/app.js",
+  "scripts": {
+    "dev": "webpack --mode development --watch",
+    "build": "webpack --mode production",
+    "sass": "sass public/assets/scss:public/assets/css --watch",
+    "sass-build": "sass public/assets/scss:public/assets/css --style compressed",
+    "minify-css": "cleancss -o public/assets/css/app.min.css public/assets/css/app.css",
+    "minify-js": "uglifyjs public/assets/js/app.js -o public/assets/js/app.min.js",
+    "optimize": "npm run sass-build && npm run minify-css && npm run minify-js",
+    "watch": "concurrently \"npm run sass\" \"npm run dev\"",
+    "production": "npm run build && npm run optimize"
+  },
+  "keywords": [
+    "tender-management",
+    "php",
+    "mysql",
+    "bootstrap",
+    "jquery",
+    "frontend"
+  ],
+  "author": "SquidJob Team",
+  "license": "MIT",
+  "devDependencies": {
+    "webpack": "^5.89.0",
+    "webpack-cli": "^5.1.4",
+    "css-loader": "^6.8.1",
+    "style-loader": "^3.3.3",
+    "sass-loader": "^13.3.2",
+    "sass": "^1.69.5",
+    "postcss": "^8.4.31",
+    "postcss-loader": "^7.3.3",
+    "autoprefixer": "^10.4.16",
+    "clean-css-cli": "^5.6.2",
+    "uglify-js": "^3.17.4",
+    "concurrently": "^8.2.2",
+    "browser-sync": "^2.29.3"
+  },
+  "dependencies": {
+    "bootstrap": "^5.3.2",
+    "jquery": "^3.7.1",
+    "@fortawesome/fontawesome-free": "^6.4.2",
+    "chart.js": "^4.4.0",
+    "datatables.net": "^1.13.6",
+    "datatables.net-bs5": "^1.13.6",
+    "select2": "^4.1.0-rc.0",
+    "sweetalert2": "^11.7.32",
+    "moment": "^2.29.4",
+    "dropzone": "^6.0.0-beta.2",
+    "aos": "^2.3.4"
+  },
+  "browserslist": [
+    "> 1%",
+    "last 2 versions",
+    "not dead"
+  ]
+}

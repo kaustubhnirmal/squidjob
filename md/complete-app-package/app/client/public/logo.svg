@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="180" height="40" viewBox="0 0 180 40" xmlns="http://www.w3.org/2000/svg">
+  <!-- Text "Tender" -->
+  <text x="5" y="28" font-family="Arial" font-size="24" font-weight="bold" fill="#333333">Tender</text>
+  
+  <!-- Text "24" -->
+  <text x="95" y="28" font-family="Arial" font-size="24" font-weight="bold" fill="#7c3aed">24</text>
+  
+  <!-- X shape -->
+  <text x="122" y="28" font-family="Arial" font-size="24" font-weight="bold" fill="#333333">x</text>
+  
+  <!-- Text "7" -->
+  <text x="137" y="28" font-family="Arial" font-size="24" font-weight="bold" fill="#0ea5e9">7</text>
+  
+  <!-- Half clock icon indicating 24/7 -->
+  <circle cx="160" cy="20" r="15" fill="none" stroke="#0ea5e9" stroke-width="2" />
+  <line x1="160" y1="20" x2="160" y2="10" stroke="#0ea5e9" stroke-width="2" />
+  <line x1="160" y1="20" x2="167" y2="27" stroke="#0ea5e9" stroke-width="2" />
+</svg>
